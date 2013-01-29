@@ -40,13 +40,14 @@ import org.bimserver.plugins.PluginManager;
 import org.bimserver.plugins.ifcengine.IfcEngine;
 import org.bimserver.plugins.ifcengine.IfcEngineException;
 import org.bimserver.plugins.ifcengine.IfcEnginePlugin;
+import org.bimserver.plugins.serializers.PluginConfiguration;
 
 public class IfcOpenShellEnginePlugin implements IfcEnginePlugin {
 	private boolean initialized = false;
 	private String filename;
 
 	@Override
-	public IfcEngine createIfcEngine() throws IfcEngineException {
+	public IfcEngine createIfcEngine(PluginConfiguration pluginConfiguration) throws IfcEngineException {
 		try {
 			return new IfcOpenShellEngine(filename);
 		} catch (IOException e) {

@@ -39,6 +39,7 @@ import org.bimserver.plugins.ifcengine.IfcEngineException;
 import org.bimserver.plugins.ifcengine.IfcEngineGeometry;
 import org.bimserver.plugins.ifcengine.IfcEngineInstance;
 import org.bimserver.plugins.ifcengine.IfcEngineModel;
+import org.bimserver.plugins.ifcengine.IfcEngineSettings;
 import org.bimserver.plugins.ifcengine.IfcEngineSurfaceProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -194,5 +195,7 @@ public class IfcOpenShellModel implements IfcEngineModel {
 	@Override
 	public void setFormat(int format, int mask) throws IfcEngineException {
 	}
-
+	@Override
+	public void setSettings(IfcEngineSettings settings) throws IfcEngineException {
+	}
 }
