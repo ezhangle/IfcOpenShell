@@ -179,6 +179,7 @@ public class IfcOpenShellModel implements IfcEngineModel {
 	public void setPostProcessing(boolean postProcessing)
 			throws IfcEngineException {
 	}
+	
 	@Override
 	public IfcEngineInstance getInstanceFromExpressId(int oid)
 			throws IfcEngineException {
@@ -192,9 +193,11 @@ public class IfcOpenShellModel implements IfcEngineModel {
 			return new IfcOpenShellEntityInstance(0,0,0);			
 		}
 	}
+	
 	@Override
 	public void setFormat(int format, int mask) throws IfcEngineException {
 	}
+
 	@Override
 	public void setSettings(IfcEngineSettings settings) throws IfcEngineException {
 	}

@@ -41,8 +41,12 @@ import org.bimserver.plugins.PluginManager;
 import org.bimserver.plugins.ifcengine.IfcEngine;
 import org.bimserver.plugins.ifcengine.IfcEngineException;
 import org.bimserver.plugins.ifcengine.IfcEnginePlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IfcOpenShellEnginePlugin implements IfcEnginePlugin {
+	private static final Logger LOGGER = LoggerFactory.getLogger(IfcOpenShellEnginePlugin.class);
+	
 	private boolean initialized = false;
 	private String filename;
 
@@ -61,7 +65,7 @@ public class IfcOpenShellEnginePlugin implements IfcEnginePlugin {
 	}
 
 	public static String getVersionStatic() {
-		return "0.3.0-rc3";
+		return "0.3.0";
 	}
 
 	@Override
@@ -82,7 +86,8 @@ public class IfcOpenShellEnginePlugin implements IfcEnginePlugin {
 			libraryName = "libIfcJni.so";
 		}
 		try {
-			InputStream inputStream = pluginContext.getResourceAsInputStream("lib/" + System.getProperty("sun.arch.data.model") + "/" + libraryName);
+			final String libraryPath = "lib/" + System.getProperty("sun.arch.data.model") + "/" + libraryName;
+			InputStream inputStream = pluginContext.getResourceAsInputStream(libraryPath);
 			if (inputStream != null) {
 				File nativeFolder = new File(pluginManager.getTempDir(), "IfcOpenShellEngine");
 				if (nativeFolder.exists()) {
@@ -97,6 +102,9 @@ public class IfcOpenShellEnginePlugin implements IfcEnginePlugin {
 				IOUtils.copy(inputStream, new FileOutputStream(file));
 				this.filename = file.getAbsolutePath();
 				initialized = new File(filename).exists();
+				if (initialized) {
+					LOGGER.info("Using " + libraryPath);
+				}
 			}
 		} catch (Exception e) {
 			throw new PluginException(e);
