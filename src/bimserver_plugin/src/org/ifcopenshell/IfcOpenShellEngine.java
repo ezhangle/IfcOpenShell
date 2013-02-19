@@ -31,13 +31,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.bimserver.plugins.ifcengine.IfcEngine;
-import org.bimserver.plugins.ifcengine.IfcEngineException;
-import org.bimserver.plugins.ifcengine.IfcEngineModel;
+import org.bimserver.plugins.renderengine.RenderEngine;
+import org.bimserver.plugins.renderengine.RenderEngineException;
+import org.bimserver.plugins.renderengine.RenderEngineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IfcOpenShellEngine implements IfcEngine {
+public class IfcOpenShellEngine implements RenderEngine {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IfcOpenShellEngine.class);
 	public static final Boolean debug = false;
 	private String filename;
@@ -47,7 +47,7 @@ public class IfcOpenShellEngine implements IfcEngine {
 	}
 
 	@Override
-	public void init() throws IfcEngineException {
+	public void init() throws RenderEngineException {
 		LOGGER.info("Initializing IfcOpenShell engine");
 	}
 	
@@ -57,27 +57,27 @@ public class IfcOpenShellEngine implements IfcEngine {
 	}
 
 	@Override
-	public IfcEngineModel openModel(File ifcFile) throws IfcEngineException {
+	public RenderEngineModel openModel(File ifcFile) throws RenderEngineException {
 		try {
 			return openModel(new FileInputStream(ifcFile),(int)ifcFile.length());
 		} catch (IOException e) {
-			throw new IfcEngineException("Failed to open model");		
+			throw new RenderEngineException("Failed to open model");		
 		}
 	}
 
 	@Override
-	public IfcEngineModel openModel(InputStream inputStream, int size) throws IfcEngineException {
+	public RenderEngineModel openModel(InputStream inputStream, int size) throws RenderEngineException {
 		try {
 			byte[] bytes = new byte[size];
 			inputStream.read(bytes);
 			return openModel(bytes);
 		} catch (IOException e) {
-			throw new IfcEngineException("Failed to open model");
+			throw new RenderEngineException("Failed to open model");
 		}
 	}
 
 	@Override
-	public IfcEngineModel openModel(byte[] bytes) throws IfcEngineException {
+	public RenderEngineModel openModel(byte[] bytes) throws RenderEngineException {
 		return new IfcOpenShellModel(filename,bytes);
 	}
 }

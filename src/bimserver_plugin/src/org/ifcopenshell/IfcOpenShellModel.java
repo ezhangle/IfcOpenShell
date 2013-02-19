@@ -34,17 +34,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.bimserver.plugins.ifcengine.IfcEngineClash;
-import org.bimserver.plugins.ifcengine.IfcEngineException;
-import org.bimserver.plugins.ifcengine.IfcEngineGeometry;
-import org.bimserver.plugins.ifcengine.IfcEngineInstance;
-import org.bimserver.plugins.ifcengine.IfcEngineModel;
-import org.bimserver.plugins.ifcengine.IfcEngineSettings;
-import org.bimserver.plugins.ifcengine.IfcEngineSurfaceProperties;
+import org.bimserver.plugins.renderengine.RenderEngineClash;
+import org.bimserver.plugins.renderengine.RenderEngineException;
+import org.bimserver.plugins.renderengine.RenderEngineGeometry;
+import org.bimserver.plugins.renderengine.RenderEngineInstance;
+import org.bimserver.plugins.renderengine.RenderEngineModel;
+import org.bimserver.plugins.renderengine.RenderEngineSettings;
+import org.bimserver.plugins.renderengine.RenderEngineSurfaceProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IfcOpenShellModel implements IfcEngineModel {
+public class IfcOpenShellModel implements RenderEngineModel {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IfcOpenShellModel.class);
 	private Boolean validModel = false;
 	private HashMap<String,List<IfcOpenShellEntityInstance>> instances;
@@ -72,37 +72,37 @@ public class IfcOpenShellModel implements IfcEngineModel {
 	}
 	
 	// Load the binary and pass the IFC data to IfcOpenShell
-	public IfcOpenShellModel(String fn, byte[] input) throws IfcEngineException {
+	public IfcOpenShellModel(String fn, byte[] input) throws RenderEngineException {
 		try {
 			System.load(fn);
 		} catch ( Throwable e ) {
 			e.printStackTrace();
-			throw new IfcEngineException("Failed to load IfcOpenShell library");
+			throw new RenderEngineException("Failed to load IfcOpenShell library");
 		}
 		String java_version = IfcOpenShellEnginePlugin.getVersionStatic();
 		String cpp_version = "";
 		try {
 			cpp_version = getPluginVersion();
 		} catch ( UnsatisfiedLinkError e ) {
-			throw new IfcEngineException("Unable to determine IfcOpenShell version");
+			throw new RenderEngineException("Unable to determine IfcOpenShell version");
 		}
 		if ( !java_version.equalsIgnoreCase(cpp_version) ) {
-			throw new IfcEngineException(String.format("Version mismatch: Plugin version %s does not match IfcOpenShell version %s",java_version,cpp_version));
+			throw new RenderEngineException(String.format("Version mismatch: Plugin version %s does not match IfcOpenShell version %s",java_version,cpp_version));
 		}
 		validModel = setIfcData(input);
 	}
 
 	@Override
-	public void close() throws IfcEngineException {
+	public void close() throws RenderEngineException {
 		validModel = false;
 	}
 
 	@Override
-	public IfcEngineGeometry finalizeModelling(
-			IfcEngineSurfaceProperties surfaceProperties)
-			throws IfcEngineException {
+	public RenderEngineGeometry finalizeModelling(
+			RenderEngineSurfaceProperties surfaceProperties)
+			throws RenderEngineException {
 		
-		if ( ! validModel ) throw new IfcEngineException("No valid model supplied");
+		if ( ! validModel ) throw new RenderEngineException("No valid model supplied");
 		
 		int[] indices = null;
 		float[] normals = null;
@@ -145,44 +145,44 @@ public class IfcOpenShellModel implements IfcEngineModel {
 			entity_list.add(instance);			
 			instances_byid.put(obj.id, instance);
 		}
-		return new IfcEngineGeometry(indices,vertices,normals);
+		return new RenderEngineGeometry(indices,vertices,normals);
 	}
 
 	@Override
-	public Set<IfcEngineClash> findClashesWithEids(double d)
-			throws IfcEngineException {
+	public Set<RenderEngineClash> findClashesWithEids(double d)
+			throws RenderEngineException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Set<IfcEngineClash> findClashesWithGuids(double d)
-			throws IfcEngineException {
+	public Set<RenderEngineClash> findClashesWithGuids(double d)
+			throws RenderEngineException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<? extends IfcEngineInstance> getInstances(String name)
-			throws IfcEngineException {
+	public List<? extends RenderEngineInstance> getInstances(String name)
+			throws RenderEngineException {
 		if ( instances.containsKey(name)) return instances.get(name);
 		else return new ArrayList<IfcOpenShellEntityInstance>();
 	}
 
 	@Override
-	public IfcEngineSurfaceProperties initializeModelling()
-			throws IfcEngineException {
+	public RenderEngineSurfaceProperties initializeModelling()
+			throws RenderEngineException {
 		return null;
 	}
 
 	@Override
 	public void setPostProcessing(boolean postProcessing)
-			throws IfcEngineException {
+			throws RenderEngineException {
 	}
 	
 	@Override
-	public IfcEngineInstance getInstanceFromExpressId(int oid)
-			throws IfcEngineException {
+	public RenderEngineInstance getInstanceFromExpressId(int oid)
+			throws RenderEngineException {
 		if ( instances_byid.containsKey(oid) ) {
 			return instances_byid.get(oid);
 		} else {
@@ -195,10 +195,10 @@ public class IfcOpenShellModel implements IfcEngineModel {
 	}
 	
 	@Override
-	public void setFormat(int format, int mask) throws IfcEngineException {
+	public void setFormat(int format, int mask) throws RenderEngineException {
 	}
 
 	@Override
-	public void setSettings(IfcEngineSettings settings) throws IfcEngineException {
+	public void setSettings(RenderEngineSettings settings) throws RenderEngineException {
 	}
 }

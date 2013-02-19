@@ -38,24 +38,24 @@ import org.bimserver.plugins.PluginConfiguration;
 import org.bimserver.plugins.PluginContext;
 import org.bimserver.plugins.PluginException;
 import org.bimserver.plugins.PluginManager;
-import org.bimserver.plugins.ifcengine.IfcEngine;
-import org.bimserver.plugins.ifcengine.IfcEngineException;
-import org.bimserver.plugins.ifcengine.IfcEnginePlugin;
+import org.bimserver.plugins.renderengine.RenderEngine;
+import org.bimserver.plugins.renderengine.RenderEngineException;
+import org.bimserver.plugins.renderengine.RenderEnginePlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IfcOpenShellEnginePlugin implements IfcEnginePlugin {
+public class IfcOpenShellEnginePlugin implements RenderEnginePlugin {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IfcOpenShellEnginePlugin.class);
 	
 	private boolean initialized = false;
 	private String filename;
 
 	@Override
-	public IfcEngine createIfcEngine(PluginConfiguration pluginConfiguration) throws IfcEngineException {
+	public RenderEngine createRenderEngine(PluginConfiguration pluginConfiguration) throws RenderEngineException {
 		try {
 			return new IfcOpenShellEngine(filename);
 		} catch (IOException e) {
-			throw new IfcEngineException(e);
+			throw new RenderEngineException(e);
 		}
 	}
 

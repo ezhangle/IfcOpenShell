@@ -19,11 +19,11 @@
 
 package org.ifcopenshell;
 
-import org.bimserver.plugins.ifcengine.IfcEngineException;
-import org.bimserver.plugins.ifcengine.IfcEngineInstance;
-import org.bimserver.plugins.ifcengine.IfcEngineInstanceVisualisationProperties;
+import org.bimserver.plugins.renderengine.RenderEngineException;
+import org.bimserver.plugins.renderengine.RenderEngineInstance;
+import org.bimserver.plugins.renderengine.RenderEngineInstanceVisualisationProperties;
 
-public class IfcOpenShellEntityInstance implements IfcEngineInstance {
+public class IfcOpenShellEntityInstance implements RenderEngineInstance {
 	private int startVertex;
 	private int startIndex;
 	private int primitiveCount;
@@ -34,9 +34,9 @@ public class IfcOpenShellEntityInstance implements IfcEngineInstance {
 		this.primitiveCount = primitiveCount;		
 	}
 	@Override
-	public IfcEngineInstanceVisualisationProperties getVisualisationProperties()
-			throws IfcEngineException {
-		return new IfcEngineInstanceVisualisationProperties(startVertex, startIndex, primitiveCount);
+	public RenderEngineInstanceVisualisationProperties getVisualisationProperties()
+			throws RenderEngineException {
+		return new RenderEngineInstanceVisualisationProperties(startVertex, startIndex, primitiveCount);
 	}
 
 }
