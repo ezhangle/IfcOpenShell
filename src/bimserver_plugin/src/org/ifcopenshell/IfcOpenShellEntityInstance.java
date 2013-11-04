@@ -38,5 +38,9 @@ public class IfcOpenShellEntityInstance implements RenderEngineInstance {
 			throws RenderEngineException {
 		return new RenderEngineInstanceVisualisationProperties(startVertex, startIndex, primitiveCount);
 	}
+	@Override
+	public float[] getTransformationMatrix() {
+		return null;
+	}
 
 }

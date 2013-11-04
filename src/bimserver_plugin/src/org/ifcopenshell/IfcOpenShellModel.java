@@ -76,7 +76,7 @@ public class IfcOpenShellModel implements RenderEngineModel {
 		try {
 			System.load(fn);
 		} catch ( Throwable e ) {
-			e.printStackTrace();
+			LOGGER.error("", e);
 			throw new RenderEngineException("Failed to load IfcOpenShell library");
 		}
 		String java_version = IfcOpenShellEnginePlugin.getVersionStatic();
