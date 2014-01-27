@@ -132,7 +132,7 @@ TARGET_LINK_LIBRARIES (IfcObj IfcParse IfcGeom TKernel TKMath TKBRep TKGeomBase 
 ADD_SUBDIRECTORY(../src/ifcwrap ifcwrap)
 
 # Build IfcParseExamples using separate CMakeLists.txt
-ADD_SUBDIRECTORY(../src/examples examples)
+# ADD_SUBDIRECTORY(../src/examples examples)
 
 ADD_SUBDIRECTORY(../src/qtviewer qtviewer)
 
